@@ -6,6 +6,11 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use Illuminate\Http\JsonResponse;
+
+use App\Models\User;
+use App\Models\Employee;
+use App\Models\Leave;
+
 trait Helper
 {
 
@@ -16,16 +21,16 @@ trait Helper
             //Server settings
             $mail->SMTPDebug = SMTP::DEBUG_OFF;
             $mail->isSMTP();
-            $mail->CharSet = 'UTF-8';
-            $mail->Host = env('MAIL_HOST');
-            $mail->SMTPAuth = true;
-            $mail->Username = env('MAIL_USERNAME');
-            $mail->Password = env('MAIL_PASSWORD');
+            $mail->CharSet    = 'UTF-8';
+            $mail->Host       = env('MAIL_HOST');
+            $mail->SMTPAuth   = true;
+            $mail->Username   = env('MAIL_USERNAME');
+            $mail->Password   = env('MAIL_PASSWORD');
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port = env('MAIL_PORT');
+            $mail->Port       = env('MAIL_PORT');
 
             $to_email = $params['email'];
-            $to_name = $params['name'];
+            $to_name  = $params['name'];
             //Recipients
             $mail->setFrom(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
             $mail->addAddress($to_email, $to_name);
@@ -43,12 +48,12 @@ trait Helper
             //Content
             $mail->isHTML(true);
             $mail->Subject = $params['subject'];
-            $mail->Body = $params['message'];
+            $mail->Body    = $params['message'];
 
             $mail->SMTPOptions = [
                 'ssl' => [
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
+                    'verify_peer'       => false,
+                    'verify_peer_name'  => false,
                     'allow_self_signed' => true,
                 ],
             ];
@@ -79,18 +84,49 @@ trait Helper
     protected function onSuccess($data, string $message = '', int $code = 200): JsonResponse
     {
         return response()->json([
-            'status' => $code,
+            'status'  => $code,
             'message' => $message,
-            'data' => $data,
+            'data'    => $data,
         ], $code);
     }
 
     protected function onError(int $code, string $message = ''): JsonResponse
     {
         return response()->json([
-            'status' => $code,
+            'status'  => $code,
             'message' => $message,
         ], $code);
+    }
+
+    public static function convertDate($date): string
+    {
+        list($dd, $mm, $yy) = explode('/', $date);
+        $dates = [($yy - 543), $mm, $dd];
+        return implode('-', $dates);
+    }
+
+    public static function dateDiff($start, $end): int
+    {
+        $date1 = date_create($end);
+        $date2 = date_create($start);
+        $diff  = date_diff($date1, $date2);
+        return $diff->format("%a") + 1;
+    }
+
+    public static function getLeaveInfo($leaveId)
+    {
+        $leave = (object) Leave::where('id', $leaveId)->with('user')
+            ->with('commandant')->first()->toArray();
+        $leave->user = (object) $leave->user;
+        $commandant = (object) $leave->commandant;
+        $commander = User::where('id', $commandant->uid)->first();
+        $leave->commanderName = $commander->name;
+        $leave->commanderEmail = $commander->email;
+        $leave->createdName = $leave->user->name;
+        $leave->createdEmail = $leave->user->email;
+        unset($leave->user);
+        unset($leave->commandant);
+        return $leave;
     }
 
 }

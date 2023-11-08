@@ -26,7 +26,7 @@
         <div class="card-body">
             <p class="login-box-msg">Employee Leave</p>
 
-            <form id="WebForm" method="post">
+            <form id="WebForm" method="post" action="login">
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Username" name="email">
                     <div class="input-group-append">
@@ -49,7 +49,7 @@
                     </div>
                     <!-- /.col -->
                     <div class="col-4">
-                        <button type="button" class="btn btn-primary btn-block">Sign In</button>
+                        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                     </div>
                     <!-- /.col -->
                 </div>
@@ -72,7 +72,7 @@
 
 
     (function ($) {
-        $(document).on('click', 'button', function () {
+        /*$(document).on('click', 'button', function () {
             let email = $('input[name="email"]').val();
             let password = $('input[name="password"]').val();
             if(email.trim().length <= 0){
@@ -109,7 +109,7 @@
                 });
             }
 
-        });
+        });*/
         /*$('#WebForm').validate({
 
             rules: rules,

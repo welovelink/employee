@@ -28,6 +28,7 @@ class CreateEmployeeLeavesTable extends Migration
             $table->foreign('created_by')->references('id')->on('employees')->onDelete('cascade');
             $table->dateTime('approved_at')->nullable();
             $table->integer('approved_by')->nullable();
+            $table->dateTime('updated_at')->nullable();
 
         });
     }

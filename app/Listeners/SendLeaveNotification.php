@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\LeaveCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use App\Jobs\CreatedLeaveNotifyJob;
 
 class SendLeaveNotification
 {
@@ -26,6 +27,6 @@ class SendLeaveNotification
      */
     public function handle(LeaveCreated $event)
     {
-        //
+        dispatch(new CreatedLeaveNotifyJob($event->leaveId));
     }
 }

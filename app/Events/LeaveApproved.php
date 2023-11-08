@@ -13,15 +13,15 @@ use Illuminate\Queue\SerializesModels;
 class LeaveApproved
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
+    public $leaveId;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($leaveId)
     {
-        //
+        $this->leaveId = $leaveId;
     }
 
     /**

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Employee;
+use App\Models\Leave;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\Employee;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -44,5 +45,9 @@ class User extends Authenticatable
 
     public function employee() {
         return $this->hasOne(Employee::class, 'uid');
+    }
+
+    public function leave() {
+        return $this->hasMany(Leave::class, 'created_by');
     }
 }

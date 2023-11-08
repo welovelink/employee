@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
     <link href="{{ asset('plugins/sweetalert/sweetalert2.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
     <style type="text/css">
         .spanner {
@@ -128,11 +129,11 @@
 <!-- Site wrapper -->
 <div class="wrapper">
     <!-- Navbar -->
-    @include('backend.includes.navbar')
+    @include('includes.navbar')
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
-    @include('backend.includes.sidebar')
+    @include('includes.sidebar')
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -140,7 +141,7 @@
     </div>
     <!-- /.content-wrapper -->
 
-    @include('backend.includes.footer')
+    @include('includes.footer')
 
     <!-- Control Sidebar -->
     <aside class="control-sidebar control-sidebar-dark">

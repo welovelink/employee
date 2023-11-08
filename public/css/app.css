@@ -1,0 +1,12 @@
+label.error{
+    font-weight: normal;
+    color: red;
+}
+
+input.error{
+    border: solid 1px red;
+}
+
+.swal2-actions button{
+    margin: 10px;
+}

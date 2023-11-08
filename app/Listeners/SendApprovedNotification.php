@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Events\LeaveApproved;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-
+use App\Jobs\ApprovedLeaveNotifyJob;
 class SendApprovedNotification
 {
     /**
@@ -26,6 +26,6 @@ class SendApprovedNotification
      */
     public function handle(LeaveApproved $event)
     {
-        //
+        dispatch(new ApprovedLeaveNotifyJob($event->leaveId));
     }
 }
